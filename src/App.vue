@@ -3,11 +3,12 @@
     img(src='./assets/logo.png')
     h1 VueMusic
     ul
-      li(v-for='artist in artists') {{ artist.name }}
+      artist(v-for='artist in artists' v-bind:artist="artist" v-bind:key="artist.mbid")
 </template>
 
 
 <script>
+import Artist from './components/Artist'
 import getArtists from './api';
 
 export default {
@@ -17,6 +18,7 @@ export default {
       artists: [],
     }
   },
+  components: { Artist },
   mounted () {
     const self = this;
     getArtists()
@@ -36,7 +38,7 @@ export default {
   color #2c3e50
   margin-top 60px
 
-h1, h2
+h1
   font-weight normal
 
 ul
