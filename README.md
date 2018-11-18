@@ -1,6 +1,6 @@
 # vue-music
 
-> Example project made on Vue.js for educational purposes
+> Vue web app using Last.fm API
 
 ## Build Setup
 
