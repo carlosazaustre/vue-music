@@ -1,9 +1,10 @@
 <template lang="pug">
   #app
+    app-header
     section.section
       nav.nav.has-shadow
         .container
-          field.has-addons
+          .field.has-addons
             .control
               input.input.is-large(
                 type="text",
@@ -18,18 +19,25 @@
 
       .container
         .columns
-          .column(v-for="t in tracks") {{ t.name }} - {{ t.artist }}
+          .column(v-for="t in tracks")
+            | {{ t.name }} - {{ t.artists[0].name }}
+    app-footer
 </template>
 
 <script>
-const tracks = [
-  { name: 'Tu jardín con enanitos', artist: 'Melendi' },
-  { name: 'In the End', artist: 'Linkin Park' },
-  { name: 'Americana', artist: 'The Offspring' }
-]
+import trackService from './services/track'
+import AppFooter from './components/layout/Footer'
+import AppHeader from './components/layout/Header'
+
+// const tracks = [
+//   { name: 'Tu jardín con enanitos', artist: 'Melendi' },
+//   { name: 'In the End', artist: 'Linkin Park' },
+//   { name: 'Americana', artist: 'The Offspring' }
+// ]
 
 export default {
   name: 'app',
+  components: { AppFooter, AppHeader },
   data () {
     return {
       searchQuery: '',
@@ -44,7 +52,12 @@ export default {
 
   methods: {
     search () {
-      this.tracks = tracks
+      if (!this.searchQuery) return
+
+      trackService.search(this.searchQuery)
+        .then(res => {
+          this.tracks = res.tracks.items
+        })
     }
   }
 }
